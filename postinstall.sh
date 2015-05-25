@@ -44,15 +44,24 @@ echo "sudo apt-get update -y" >> $devtools/installvnc.sh
 echo "sudo apt-get upgrade -y" >> $devtools/installvnc.sh
 echo "sudo apt-get install x11vnc" >> $devtools/installvnc.sh
 
-echo "#!/bin/bash" >> $devtools/sartvnc.sh
-echo "x11vnc -bg -o %HOME/.x11vnc.log.%VNCDISPLAY -auth /var/run/lightdm/root/:0 -forever" >> $devtools/sartvnc.sh
+
+echo "#!/bin/bash" >> $devtools/installcheese.sh
+echo "sudo apt-get install cheese" >> $devtools/installcheese.sh
+
+
+echo "#!/bin/bash" >> $devtools/startvnc.sh
+echo "x11vnc -bg -o %HOME/.x11vnc.log.%VNCDISPLAY -auth /var/run/lightdm/root/:0 -forever" >> $devtools/startvnc.sh
+
+echo "#!/bin/bash" >> $devtools/stopvnc.sh
+echo "x11vnc -bg -o %HOME/.x11vnc.log.%VNCDISPLAY -auth /var/run/lightdm/root/:0 -forever" >> $devtools/stopvnc.sh
 
 echo "#!/bin/bash" >> $devtools/opencvprereq.sh
 echo "sudo apt-get update" >> $devtools/opencvprereq.sh
 echo "sudo apt-get upgrade" >> $devtools/opencvprereq.sh
 echo "sudo apt-get install build-essential cmake pkg-config" >> $devtools/opencvprereq.sh
 echo "sudo apt-get install libtiff4-dev libjpeg-dev libjasper-dev libpng12-dev" >> $devtools/opencvprereq.sh
-echo "udo apt-get install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev" >> $devtools/opencvprereq.sh
+echo "sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev v4l-utils" >> $devtools/opencvprereq.sh
+echo "sudo apt-get install libgstreamer0.10-0-dbg libgstreamer0.10-0 libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev libxine1-ffmpeg libxine-dev libxine1-bin libunicap2 libunicap2-dev libdc1394-22-dev libdc1394-22 libdc1394-utils libv4l-0 libv4l-dev" >> $devtools/opencvprereq.sh
 
 echo "#!/bin/bash" >> $devtools/opencvbuild.sh
 echo "cd ~/projects/opencv" >> $devtools/opencvbuild.sh
