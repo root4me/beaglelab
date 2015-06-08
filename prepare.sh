@@ -43,17 +43,17 @@ then
 fi
 
 # Prompt - disk image to micro sd
-echo "$(tput bold)$(tput setaf 6)------------------------------------------"
-read -p "disk image to micro sd (y/n) : " image78
-echo "------------------------------------------ $(tput sgr0)"
-if [[ "$image78" == [Yy]* ]]
-then
-	echo "== copying image to micro sd"
-	cd ~/projects/beaglelab/build
-	lsblk
-	read -p "sdX disk name : " sdx
+#echo "$(tput bold)$(tput setaf 6)------------------------------------------"
+#read -p "disk image to micro sd (y/n) : " image78
+#echo "------------------------------------------ $(tput sgr0)"
+#if [[ "$image78" == [Yy]* ]]
+#then
+	#echo "== copying image to micro sd"
+	#cd ~/projects/beaglelab/build
+	#lsblk
+	#read -p "sdX disk name : " sdx
 	#sudo dd if=./bone-debian-8.0-console-armhf-2015-05-08-2gb.img of=/dev/$sdx
-	echo $sdx
-fi
+	#echo $sdx
+#fi
 
 
