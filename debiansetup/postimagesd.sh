@@ -91,6 +91,6 @@ echo "#sudo ldconfig" >> $devtools/opencvbuild.sh
 
 
 echo "$(tput setaf 6)== copying opencv files $(tput sgr0)"
-cp -r ~/projects/beaglelab/build/opencv $projects
-cp -r ~/projects/beaglelab/build/test $projects
+cp -r ~/projects/beaglelab/debiansetup/build/opencv $projects
+cp -r ~/projects/beaglelab/debiansetup/build/test $projects
 

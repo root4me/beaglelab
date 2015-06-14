@@ -1,7 +1,7 @@
 #!/bin/bash
 
 lsblk
-cd ~/projects/beaglelab/build
+cd ~/projects/beaglelab/debiansetup/build
 echo "$(tput bold)$(tput setaf 6)"
 echo "== commands to run"
 echo "unxz bone-debian-7.8-lxde-4gb-armhf-2015-03-01-4gb.img.xz -v"
