@@ -13,9 +13,12 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 
+#include "shapes.h"
+
 using namespace std;
 using namespace cv; //opencv namespace
 
+//declared extern in shapes.h
 bool verbose = false;
 int camera = -1;
 string fileName;
@@ -30,6 +33,20 @@ void processfile()
 		cout << "-> file not found ! -> " << fileName << endl;
 	}
 
+	shapes s = shapes(input);
+	std::vector<arrow> arrows = s.arrows();
+
+	for (uint i = 0 ; i < arrows.size(); i++)
+	{
+		cout << "points - > " << arrows[i].polygon << endl;
+		cout << "direction -> " << arrows[i].direction << endl;
+
+	}
+
+	waitKey(0);
+
+	input.deallocate();
+
 }
 
 void printusage()
@@ -42,18 +59,19 @@ void printusage()
 
 void printstartparams()
 {
-	cout << "---------------------------------" << endl;
+	cout << "----------------------------" << endl;
 	cout << "Image file : " << fileName << endl;
 	cout << "Camera : " << camera << endl;
 	cout << "Verbose : " << verbose << endl;
-	cout << "---------------------------------" << endl;
+	cout << "----------------------------" << endl;
 }
 
 int main(int argc, char **argv) {
 
-
 	int option;
 	char *cam;
+
+	if (argc ==1 ) printusage();
 
 	while ((option = getopt (argc, argv, "c:i:v")) != -1)
 	{
@@ -88,7 +106,6 @@ int main(int argc, char **argv) {
 	{
 		//process from camera
 	}
-
 
 	return 0;
 
