@@ -1,0 +1,7 @@
+#!/bin/bash
+
+server="ubuntu@192.168.7.2"
+dest="~/"
+src="scripts"
+#ssh "$server" "mkdir -p $dest" &&
+scp -r "$src" "$server:$dest"

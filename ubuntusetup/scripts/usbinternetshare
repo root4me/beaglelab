@@ -1,0 +1,25 @@
+#!/bin/bash
+
+source checkinternet
+
+if [[ $(checkinternet) -eq 1 ]]; then
+  echo "Internet Connection Active"
+else
+  echo "No Internet Connection"
+  sudo route add default gw 192.168.7.1
+  sudo ifconfig usb0 192.168.7.2
+  echo "nameserver 8.8.8.8" | sudo tee -a /etc/resolv.conf > /dev/null
+  if [[ $(checkinternet) -eq 1 ]]; then
+    echo "Internet Connection Active"
+  else
+    echo "$(tput bold)$(tput setaf 6)"
+    echo '== In host machine'
+    echo 'If eth1 is the beaglebone usb connection'
+    echo 'sudo su'
+    echo 'ifconfig eth1 192.168.7.1'
+    echo 'iptables --table nat --append POSTROUTING --out-interface wlan0 -j MASQUERADE'
+    echo 'iptables --append FORWARD --in-interface eth5 -j ACCEPT'
+    echo 'echo 1 > /proc/sys/net/ipv4/ip_forwardc'
+    echo "$(tput sgr0)"
+  fi
+fi

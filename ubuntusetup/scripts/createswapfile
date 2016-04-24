@@ -1,0 +1,8 @@
+#!/bin/bash
+
+sudo mkdir -p /var/cache/swap/
+sudo dd if=/dev/zero of=/var/cache/swap/swapfile bs=1M count=1024
+sudo chmod 0600 /var/cache/swap/swapfile
+sudo mkswap /var/cache/swap/swapfile
+sudo swapon /var/cache/swap/swapfile
+echo "/var/cache/swap/swapfile    none    swap    sw    0   0" | sudo tee -a /etc/fstab > /dev/null

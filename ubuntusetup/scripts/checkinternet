@@ -1,0 +1,36 @@
+#!/bin/bash
+source textformatting
+
+echo $greenfg"Loading script : checkinternet"$resetall
+echo "Contain functions for checking intetrnet connectivity"
+echo "Run argument : internet"
+
+function run {
+  if [[ $(checkinternet) -eq 1 ]]; then
+    echo $greenfg "Internet connection is active" $resetall
+  else
+    echo $redfg "No internet connection" $resetall
+  fi
+}
+
+function checkinternet {
+  wget -q --tries=10 --timeout=20 --spider http://google.com
+  if [[ $? -eq 0 ]]; then
+    echo 1
+  else
+    echo 0
+  fi
+}
+
+function setdate {
+  sudo ntpdate pool.ntp.org
+  if [[ $? -eq 0 ]]; then
+    echo 1
+  else
+    echo 0
+  fi
+}
+
+if [[ $(uppercase $1) == "INTERNET" ]]; then
+  run
+fi
