@@ -28,6 +28,8 @@ then
 	echo "md5sum must be : c848627722b7a5f7bc89791cc8949e3b"
 fi
 
+wget https://rcn-ee.online/rootfs/2015-12-11/microsd/bone-ubuntu-14.04.3-console-armhf-2015-12-11-2gb.img.xz
+
 # Prompt - download debian 8.0 
 echo "$(tput bold)$(tput setaf 6)------------------------------------------"
 read -p "download debian 8.0 (y/n) : " d80

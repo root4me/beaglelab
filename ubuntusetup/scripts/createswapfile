@@ -1,8 +1,36 @@
 #!/bin/bash
 
-sudo mkdir -p /var/cache/swap/
-sudo dd if=/dev/zero of=/var/cache/swap/swapfile bs=1M count=1024
-sudo chmod 0600 /var/cache/swap/swapfile
-sudo mkswap /var/cache/swap/swapfile
-sudo swapon /var/cache/swap/swapfile
-echo "/var/cache/swap/swapfile    none    swap    sw    0   0" | sudo tee -a /etc/fstab > /dev/null
+# Functions to set date from time server
+# Command line argument : swap
+
+source textformatting
+
+function createSwapFile() {
+  if [[ -f /var/cache/swap/swapfile ]]; then
+    echo $greenfg "Swap file exists .. nothing to do here" $resetall
+    return 0
+  else
+    echo $cyanfg "Creating swap file .." $resetall
+    sudo mkdir -p /var/cache/swap/
+    sudo dd if=/dev/zero of=/var/cache/swap/swapfile bs=1M count=1024
+    sudo chmod 0600 /var/cache/swap/swapfile
+    sudo mkswap /var/cache/swap/swapfile
+    sudo swapon /var/cache/swap/swapfile
+    echo "/var/cache/swap/swapfile    none    swap    sw    0   0" | sudo tee -a /etc/fstab > /dev/null
+    if [[ $? -eq 0 ]]; then
+      echo $greenfg "Swap file created .." $resetall
+      return 0
+    else
+      echo $redfg$whitebg "Something is rotten with swap file creation ..." $resetall
+      return 1
+    fi
+  fi
+}
+
+if [[ $# -ne 0 ]]; then
+  if [[ $(uppercase $1) == "SWAP" ]]; then
+    createSwapFile
+  else
+    echo $cyanfg "Supported arguments : swap" $resetall
+  fi
+fi

@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Functions to set date from time server
+# Command line argument : date
+
+source textformatting
+source checkinternet
+source usbinternetshare
+
+function ntpFetch() {
+  echo $cyanfg "Setting date" $resetall
+  sudo ntpdate pool.ntp.org
+  if [[ $? -eq 0 ]]; then
+    echo $greenfg "Date set" $resetall
+    return 0
+  else
+    echo $redfg$whitebg "Date not set" $resetall
+    return 1
+  fi
+}
+
+function setDate() {
+  checkInternet
+  if [[ $? -eq 0 ]]; then
+    ntpFetch
+  else
+    read -p $greenfg$bold"Enable usb internet share (y/n) : "$resetall u
+    if [[ $(uppercase $u) == "Y" ]]; then
+      usbInternetShare
+      if [[ $? -eq 0 ]]; then
+        ntpFetch
+      fi
+    fi
+  fi
+}
+
+if [[ $# -ne 0 ]]; then
+  if [[ $(uppercase $1) == "DATE" ]]; then
+    setDate
+  else
+    echo $cyanfg "Supported arguments : date" $resetall
+  fi
+fi

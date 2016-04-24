@@ -1,8 +1,8 @@
 #!/bin/bash
 
-echo "Loading script : textformatting"
-echo "Contains Text Formatting varaibles and functions"
-echo "Run argument : texty"
+#echo "Loading script : textformatting"
+#echo "Contains Text Formatting varaibles and functions"
+#echo "Run argument : texty"
 
 blackfg="$(tput setaf 0)"
 redfg="$(tput setaf 1)"
@@ -52,10 +52,6 @@ function run {
   echo $startunderline "underline text" $resetall
   echo $bold "bold text" $resetall
 }
-
-echo $#
-echo $0
-echo $1
 
 if [[ $(uppercase $1) == "TEXTY" ]]; then
   run
