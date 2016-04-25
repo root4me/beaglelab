@@ -7,37 +7,34 @@ source textformatting
 source checkinternet
 
 function usbInternetShare() {
-    sudo route add default gw 192.168.7.1
-    sudo ifconfig usb0 192.168.7.2
-    echo "nameserver 8.8.8.8" | sudo tee -a /etc/resolv.conf > /dev/null
-    checkInternet
-    if [[ $? -eq 0 ]]; then
-      return 0
-    else
-      echo " "
-      echo $purplefg$bold "***** In host machine *****" $resetall
-      echo "$cyanfg"
-      echo "sudo su"
-      echo $purple "** If eth1 is the beaglebone usb connection" $resetall
-      echo $cyanfg "ifconfig eth1 192.168.7.1"
-      echo $purple "** If wlan0 is the network interface being used for internet in host machine" $resetall
-      echo $cyanfg "iptables --table nat --append POSTROUTING --out-interface wlan0 -j MASQUERADE"
-      echo $cyanfg "iptables --append FORWARD --in-interface eth5 -j ACCEPT"
-      echo $cyanfg "echo 1 > /proc/sys/net/ipv4/ip_forward"
-      echo "$resetall"
-      return 1
-    fi
+  sudo route add default gw 192.168.7.1
+  sudo ifconfig usb0 192.168.7.2
+  echo "nameserver 8.8.8.8" | sudo tee -a /etc/resolv.conf > /dev/null
+  checkInternet
+  if [[ $? -eq 0 ]]; then
+    return 0
+  else
+    echo " "
+    echo $purplefg$bold "***** In host machine *****" $resetall
+    echo "$cyanfg"
+    echo "sudo su"
+    echo $purple "** If eth1 is the beaglebone usb connection" $resetall
+    echo $cyanfg "ifconfig eth1 192.168.7.1"
+    echo $purple "** If wlan0 is the network interface being used for internet in host machine" $resetall
+    echo $cyanfg "iptables --table nat --append POSTROUTING --out-interface wlan0 -j MASQUERADE"
+    echo $cyanfg "iptables --append FORWARD --in-interface eth5 -j ACCEPT"
+    echo $cyanfg "echo 1 > /proc/sys/net/ipv4/ip_forward"
+    echo "$resetall"
+    return 1
+  fi
 }
 
-if [[ $# -ne 0 ]]; then
-  if [[ $(uppercase $1) == "USBINTERNET" ]]; then
-    checkInternet
-    if [[ $? -eq 0 ]]; then
-      echo $greenfg "usb internet share will not be set ...Internet connection is already active" $resetall
-    else
-      usbInternetShare
-    fi
+
+if [[ $(uppercase $1) == "USBINTERNET" ]]; then
+  checkInternet
+  if [[ $? -eq 0 ]]; then
+    echo $greenfg "usb internet share will not be set ...Internet connection is already active" $resetall
   else
-    echo $cyanfg "Supported arguments : usbinternet" $resetall
+    usbInternetShare
   fi
 fi

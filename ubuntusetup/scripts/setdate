@@ -38,6 +38,6 @@ if [[ $# -ne 0 ]]; then
   if [[ $(uppercase $1) == "DATE" ]]; then
     setDate
   else
-    echo $cyanfg "Supported arguments : date" $resetall
+    echo $cyanfg "Supported arguments for setdate script : date" $resetall
   fi
 fi
