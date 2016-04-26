@@ -1,0 +1,98 @@
+#!/bin/bash
+
+# Functions to remove apache and install nginx
+# Command line argument : install
+
+source textformatting
+
+function uninstallApache() {
+  sudo apt-get --purge remove apache2*
+}
+
+function installNginx() {
+  echo $cyanfg "Need to run apt-get update" $resetall
+  sudo apt-get update && sudo apt-get dist-upgrade
+  echo $cyanfg "Installing nginx" $resetall
+  sudo apt-get install nginx
+}
+
+function configureNginx() {
+
+  echo $cyanfg "configuring nginx" $resetall
+
+  sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.old
+  sudo rm /etc/nginx/sites-available/default
+
+  read -p $greenfg$bold"Enter server names (eg: site.com www.site.com mydomain.site.com) : "$resetall server
+
+  echo "server {
+    listen 80 default_server;
+    listen [::]:80 default_server ipv6only=on;
+
+    root /usr/share/nginx/html;
+    index index.html index.htm;
+
+    server_name $server;
+
+    location / {
+      proxy_set_header X-Real-IP \$remote_addr;
+      proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+      proxy_set_header Host \$http_host;
+      proxy_set_header X-NginX-Proxy true;
+
+      # Run the site at port 3000 or change the following line accordingly
+      proxy_pass http://127.0.0.1:3000/;
+      proxy_redirect off;
+
+    }
+
+    # error.html need to be created and placed inside /usr/share/nginx/html
+    error_page 400 500 502 503 504 /error.html;
+    location = /error.html {
+      root /usr/share/nginx/html;
+      internal;
+    }
+  }
+  "  | sudo tee /etc/nginx/sites-available/default > /dev/null
+
+  echo "<h1>Oops!</h1>
+  <p>Something is rotten ...</p>" | sudo tee /usr/share/nginx/html/error.html > /dev/null
+
+  sudo service nginx restart
+
+}
+
+if [[ $(uppercase $1) == "INSTALL" ]]; then
+  uninstallApache
+  installNginx
+  configureNginx
+fi
+
+if [[ $(uppercase $1) == "UNINSTALL" ]]; then
+  sudo service nginx stop
+  sudo apt-get purge --auto-remove nginx nginx-common
+fi
+
+if [[ $(uppercase $1) == "CONFIGURE" ]]; then
+  configureNginx
+fi
+
+if [[ $(uppercase $1) == "START" ]]; then
+  sudo service nginx start
+fi
+
+if [[ $(uppercase $1) == "STOP" ]]; then
+  sudo service nginx stop
+fi
+
+if [[ $(uppercase $1) == "RESTART" ]]; then
+  sudo service nginx restart
+fi
+
+if [[ $(uppercase $1) == "LOG" ]]; then
+  echo "$cyanfg"
+  set -x
+  cat /var/log/nginx/error.log
+  set +x
+  echo "$resetall"
+fi
