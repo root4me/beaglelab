@@ -1,0 +1,49 @@
+#!/bin/bash
+
+source ../scripts/textformatting
+
+url=https://rcn-ee.online/rootfs/2015-12-11/microsd/;
+file=bone-ubuntu-14.04.3-console-armhf-2015-12-11-2gb.img.xz;
+image=bone-ubuntu-14.04.3-console-armhf-2015-12-11-2gb.img;
+
+downloaddir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+cd $downloaddir
+
+function copytosd {
+  read -p $greenfg$bold"Insert SD card and press enter ..."$resetall
+  echo $cyanfg
+  lsblk
+  echo $resetall
+  read -p $greenfg$bold"Type in SD device Id from the above output (eg: /dev/sdc) : "$resetall devsd
+  echo $cyanfg"Cloning in progress to "$devsd $resetall
+  sudo dd if=./$image of=$devsd
+}
+
+function downloadandextract {
+  echo $redfg"$image not found."$resetall
+  echo $cyanfg"Will download from : "$url$file $resetall
+
+  wget $url$file
+  unxz $file -v
+}
+
+function launchgparted {
+  echo $cyanfg"Image will take up only part of the SD card space. Need to resize using gparted to consume the whole of SD" $resetall
+  echo $cyanfg"If gpart keep spinnig trying to scan; exit it and launch gpart after this script execution is complete" $resetall
+  sudo gparted
+}
+
+function finalmessage {
+  echo $greenfg$bold"All done ... Ready to go if resizing succeeded" $resetall
+}
+
+if [[ -f "$image" ]]
+then
+  copytosd
+  launchgparted
+else
+  downloadandextract
+  copytosd
+  launchgparted
+fi
