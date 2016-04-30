@@ -9,7 +9,7 @@ source checkinternet
 function usbInternetShare() {
   sudo route add default gw 192.168.7.1
   sudo ifconfig usb0 192.168.7.2
-  echo "nameserver 8.8.8.8" | sudo tee -a /etc/resolv.conf > /dev/null
+
   checkInternet
   if [[ $? -eq 0 ]]; then
     return 0

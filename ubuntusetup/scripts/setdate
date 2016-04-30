@@ -24,11 +24,17 @@ function setDate() {
   if [[ $? -eq 0 ]]; then
     ntpFetch
   else
-    read -p $greenfg$bold"Enable usb internet share (y/n) : "$resetall u
-    if [[ $(uppercase $u) == "Y" ]]; then
-      usbInternetShare
-      if [[ $? -eq 0 ]]; then
-        ntpFetch
+    echo "nameserver 8.8.8.8" | sudo tee -a /etc/resolv.conf > /dev/null
+    checkInternet
+    if [[ $? -eq 0 ]]; then
+      ntpFetch
+    else
+      read -p $greenfg$bold"Enable usb internet share (y/n) : "$resetall u
+      if [[ $(uppercase $u) == "Y" ]]; then
+        usbInternetShare
+        if [[ $? -eq 0 ]]; then
+          ntpFetch
+        fi
       fi
     fi
   fi

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-server="ubuntu@192.168.7.2"
+server="ubuntu@10.0.0.8"
 dest="~/"
 src="scripts"
 #ssh "$server" "mkdir -p $dest" &&
