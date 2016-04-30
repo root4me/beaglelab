@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Functions to install nodejs
+# Command line argument : install
+
+source textformatting
+
+function installNodejs() {
+  echo $cyanfg "Need to run apt-get upgrade" $resetall
+  sudo apt-get update && sudo apt-get dist-upgrade
+  echo $cyanfg "Installing build essentials" $resetall
+  sudo apt-get install -y build-essential
+
+  echo $cyanfg "Installing curl and git" $resetall
+  sudo apt-get install curl git
+
+  # Set git to use https:// . Firewalls usually blocks git:// calls
+  git config --global url."https://".insteadOf git://
+
+  echo $cyanfg "Installing nodejs" $resetall
+  curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+  sudo apt-get install -y nodejs
+
+  node -v
+}
+
+if [[ $(uppercase $1) == "INSTALL" ]]; then
+  installNodejs
+fi
+
+if [[ $(uppercase $1) == "UNINSTALL" ]]; then
+  sudo apt-get remove --purge -y nodejs
+fi
