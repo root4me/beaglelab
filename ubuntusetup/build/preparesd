@@ -38,8 +38,7 @@ function finalmessage {
   echo $greenfg$bold"All done ... Ready to go if resizing succeeded" $resetall
 }
 
-if [[ -f "$image" ]]
-then
+if [[ -f "$image" ]]; then
   copytosd
   launchgparted
 else

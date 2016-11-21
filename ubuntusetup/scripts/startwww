@@ -1,0 +1,8 @@
+#!/bin/bash
+
+source textformatting
+source setdate
+
+. ./bbbmongo start
+export NODE_ENV=production
+. ./pm2man start root4.me

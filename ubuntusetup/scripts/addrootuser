@@ -1,0 +1,14 @@
+#!/bin/bash
+
+source textformatting
+
+sudo adduser root4me
+
+echo $cyanfg "When editor open ... Look for"
+echo $cyanfg "root ALL=(ALL:ALL) ALL"
+echo $cyanfg "Add"
+echo $cyanfg "root4me ALL=(ALL:ALL) ALL"
+
+read -p $greenfg$bold"Press enter to continue .."$resetall p
+
+sudo visudo

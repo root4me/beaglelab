@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Functions to install nodejs
+# Command line argument : install
+
+source textformatting
+
+if [[ $(uppercase $1) == "INSTALL" ]]; then
+  sudo npm install pm2 -g
+fi
+
+if [[ $(uppercase $1) == "UNINSTALL" ]]; then
+  pm2 kill
+  sudo npm remove pm2 -g
+fi
+
+if [[ $(uppercase $1) == "START" ]]; then
+
+  echo $cyanfg "pm2 start server.js --name sitename" $resetall
+  pushd ~/www/$2
+  pm2 start ~/www/$2/server.js --name $2
+  popd
+
+fi
+
+if [[ $(uppercase $1) == "STOP" ]]; then
+
+  echo $cyanfg "pm2 stop sitename" $resetall
+  pm2 stop $2
+
+fi

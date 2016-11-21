@@ -1,0 +1,9 @@
+
+source textformatting
+
+read -p $redfg$bold"Do you want to delete user named ubuntu !!! .. (y/n) : "$resetall u
+
+if [[ $(uppercase $u) == "Y" ]]; then
+  sudo userdel -r root4me
+  sudo visudo
+fi

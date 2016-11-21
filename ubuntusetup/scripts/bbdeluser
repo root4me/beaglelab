@@ -1,0 +1,17 @@
+
+source textformatting
+
+read -p $redfg$bold"Do you want to delete user named ubuntu !!! .. (y/n) : "$resetall u
+
+if [[ $(uppercase $u) == "Y" ]]; then
+  sudo userdel -r ubuntu
+  sudo visudo
+
+  echo $cyanfg "When editor open ... delete reference to user and password"
+  read -p $greenfg$bold"Press enter to continue .."$resetall p
+
+  sudo nano /etc/issue.net
+
+  sudo nano /etc/issue
+
+fi

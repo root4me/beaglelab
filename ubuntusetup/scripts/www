@@ -1,0 +1,32 @@
+#!/bin/bash
+
+source textformatting
+source setdate
+
+if [[ $(uppercase $1) == "START" ]]; then
+  . ./bbbmongo start
+  export NODE_ENV=production
+  . ./pm2man start root4.me
+fi
+
+if [[ $(uppercase $1) == "DEPLOY" ]]; then
+  if [[ -d ~/www/dist ]]; then
+    echo $cyanfg "Deploying file .." $resetall
+    rm -rf ~/www/root4.me
+    mv ~/www/dist ~/www/root4.me
+
+    echo $cyanfg "Installing .." $resetall
+    pushd ~/www/root4.me
+    npm install --production
+    popd
+
+    echo $cyanfg "Stopping site .." $resetall
+    . ./pm2man stop root4.me
+    export NODE_ENV=production
+    echo $cyanfg "Starting site .." $resetall
+    . ./pm2man start root4.me
+
+  else
+    echo $redfg "Nothing to deploy .. dist folder does not exist .." $resetall
+  fi
+fi
